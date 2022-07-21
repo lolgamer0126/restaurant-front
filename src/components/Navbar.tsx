@@ -168,7 +168,7 @@ export default function Navbar() {
                 {user.username && <Button onClick={()=>{
                   removeCookie('user');
                   window.location.reload();
-                }} > <MenuItem>  <BiLogOut /> Гарах</MenuItem> </Button>}
+                }} > <MenuItem>Гарах  <BiLogOut /> </MenuItem> </Button>}
                 {!user.username && <Link href='http://localhost:8000/auth/google'> <Button  w={'full'} variant={'outline'} leftIcon={<FcGoogle />}>
           <Center>
             <h2>Нэвтрэх</h2>

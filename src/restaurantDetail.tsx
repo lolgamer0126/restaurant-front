@@ -13,6 +13,9 @@ import {
     useColorModeValue,
     List,
     ListItem,
+    Tag,
+    TagLabel,
+    HStack,
   } from '@chakra-ui/react';
 import { MdLocalShipping } from 'react-icons/md';
 import Navbar from './components/Navbar'
@@ -33,7 +36,9 @@ export default function Restaurant() {
     rating: 0,
     branch: 0,
     uniqueid: '',
-    description: ''
+    description: '',
+    email: '',
+    phone:''
   });
   const { id } = useParams();
   const cookie = getCookie('user');
@@ -48,6 +53,7 @@ export default function Restaurant() {
             setRestaurant(res.restaurant);
         }
     } )
+    console.log(restaurant.tags.split(',')[0])
   },[])
   const incrementRating = () =>{
     fetchInrementRating(restaurant.uniqueid, cookie).then(result=>{
@@ -114,13 +120,6 @@ export default function Restaurant() {
             }>
               <Button onClick={()=>incrementRating()} leftIcon={<GiHighFive/>} variant={'outline'} colorScheme='blue'>{restaurant.rating}</Button>
             <VStack spacing={{ base: 4, sm: 6 }}>
-              {/* <Text
-                color={useColorModeValue('gray.500', 'gray.400')}
-                fontSize={'2xl'}
-                fontWeight={'300'}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
-              </Text> */}
               <Text fontSize={'lg'}>
                 {restaurant.description}
               </Text>
@@ -132,19 +131,26 @@ export default function Restaurant() {
                 fontWeight={'500'}
                 textTransform={'uppercase'}
                 mb={'4'}>
-                Features
+                Төрөл
               </Text>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{' '}
-                  <ListItem>Tachymeter</ListItem>
-                </List>
-                <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
+              <SimpleGrid row={{ base: 1, md: 2 }} spacing={10}>
+                <List spacing={2} >
+                <HStack spacing={4}>
+
+                {restaurant.tags.split(',').map(tag=>{
+                  return <Tag
+                  size={'sm'}
+                  key={tag}
+                  borderRadius='full'
+                  variant='solid'
+                  colorScheme='green'
+                  
+                >
+                  <TagLabel>{tag}</TagLabel>
+                </Tag>
+                })}
+                </HStack>
                 </List>
               </SimpleGrid>
             </Box>
@@ -155,76 +161,24 @@ export default function Restaurant() {
                 fontWeight={'500'}
                 textTransform={'uppercase'}
                 mb={'4'}>
-                Product Details
+                Холбоо барих
               </Text>
 
               <List spacing={2}>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Between lugs:
+                    Мэйл:
                   </Text>{' '}
-                  20 mm
+                  {restaurant.email}
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Bracelet:
+                    Утас:
                   </Text>{' '}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case:
-                  </Text>{' '}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case diameter:
-                  </Text>{' '}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Dial color:
-                  </Text>{' '}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Crystal:
-                  </Text>{' '}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Water resistance:
-                  </Text>{' '}
-                  5 bar (50 metres / 167 feet){' '}
+                  {restaurant.phone}
                 </ListItem>
               </List>
             </Box>
-          </Stack>
-
-          <Button
-            rounded={'none'}
-            w={'full'}
-            mt={8}
-            size={'lg'}
-            py={'7'}
-            bg={useColorModeValue('gray.900', 'gray.50')}
-            color={useColorModeValue('white', 'gray.900')}
-            textTransform={'uppercase'}
-            _hover={{
-                transform: 'translateY(2px)',
-                boxShadow: 'lg',
-            }}>
-            Add to cart
-          </Button>
-
-          <Stack direction="row" alignItems="center" justifyContent={'center'}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
           </Stack>
         </Stack>
       </SimpleGrid>

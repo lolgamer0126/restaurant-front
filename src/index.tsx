@@ -10,6 +10,7 @@ import Create from './create'
 import Admin from './admin'
 import Restaurant from './restaurantDetail';
 import EditRestaurant from './editRestaurant';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

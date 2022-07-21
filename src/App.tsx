@@ -5,8 +5,10 @@ import { useEffect, useState, useRef } from 'react';
 import useTitle from './functions/changeTitle';
 import fetchUser from './functions/fetchUser'
 import getCookie from './functions/getCookie';
-import { Select } from '@chakra-ui/react';
+import { ColorModeScript, Select } from '@chakra-ui/react';
+import theme from './theme';
 const Home = () => {
+
   interface restaurantInterface {
     name: string,
     tags: string,
@@ -30,6 +32,8 @@ const Home = () => {
   useTitle('Нүүр')
   return (
     <div>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+
       <Navbar/>
       <Select placeholder='Эрэмблэлт сонгох' size='lg' onChange={(e)=>setOption(e.target.value)}>
         <option value='chronologically'>Сүүлд нэмэгдсэнээр</option>
