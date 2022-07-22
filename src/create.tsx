@@ -51,8 +51,7 @@ import Navbar from './components/Navbar';
         branch: '',
         description: '',
         phone: '',
-        x: '',
-        y:'',
+        location:'',
         cookie: cookie
     })
     useTitle('Шинийг оруулах')
@@ -61,7 +60,7 @@ import Navbar from './components/Navbar';
     const handleSubmit = async (event:any, ) =>{
         event.preventDefault();
         const rest = JSON.stringify(values);
-        const result = await fetch('http://localhost:8000/restaurant/create', {
+        const result = await fetch('http://35.194.232.50:8000/restaurant/create', {
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
@@ -228,20 +227,12 @@ import Navbar from './components/Navbar';
                                 <InputGroup>
                                   <InputLeftElement children={<GrMap />} />
                                   <Input
-                                    onChange={e=>setValues({...values, x:e.target.value})}
+                                    onChange={e=>setValues({...values, location:e.target.value})}
                                     type="text"
                                     name="coordination"
-                                    placeholder="x"
+                                    placeholder="insert google Iframe embed url only"
                                     />
-                                  <InputRightElement children={<GrMap/>} />
-                                  <Input
-                                    onChange={e=>setValues({...values, y:e.target.value})}
-                                    type="text"
-                                    name="coordination"
-                                    placeholder="y"
-                                  />
                                 </InputGroup>
-                                
 
                             </div>
                     </FormControl>

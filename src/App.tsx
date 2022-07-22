@@ -6,6 +6,7 @@ import useTitle from './functions/changeTitle';
 import fetchUser from './functions/fetchUser'
 import getCookie from './functions/getCookie';
 import { Select } from '@chakra-ui/react';
+
 const Home = () => {
   interface restaurantInterface {
     name: string,

@@ -1,5 +1,5 @@
 const fetchRestaurantDetails = async(id:string) =>{
-    const result = await fetch(`http://localhost:8000/restaurant/${id}`, {
+    const result = await fetch(`http://35.194.232.50:8000/restaurant/${id}`, {
         method: 'GET',
         headers:{
             'Accept': 'application/json',

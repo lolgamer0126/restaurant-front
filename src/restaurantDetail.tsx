@@ -1,20 +1,22 @@
 import {
-    Box,
-    Container,
-    Stack,
-    Text,
-    Image,
-    Flex,
-    VStack,
-    Button,
-    Heading,
-    SimpleGrid,
-    StackDivider,
-    useColorModeValue,
-    List,
-    ListItem,
-  } from '@chakra-ui/react';
-import { MdLocalShipping } from 'react-icons/md';
+  Box,
+  Container,
+  Stack,
+  Text,
+  Image,
+  Flex,
+  VStack,
+  Button,
+  Heading,
+  SimpleGrid,
+  StackDivider,
+  useColorModeValue,
+  List,
+  ListItem,
+  Tag,
+  TagLabel,
+  HStack,
+} from '@chakra-ui/react';
 import Navbar from './components/Navbar'
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
@@ -26,209 +28,180 @@ import getCookie from './functions/getCookie';
 import { useToast } from '@chakra-ui/react'
 
 export default function Restaurant() {
-  const [restaurant, setRestaurant] = useState({
-    name: 'Loading...',
-    tags: '',
-    photo: '',
-    rating: 0,
-    branch: 0,
-    uniqueid: '',
-    description: ''
-  });
-  const { id } = useParams();
-  const cookie = getCookie('user');
-  const toast = useToast()
+const [restaurant, setRestaurant] = useState({
+  name: '',
+  tags: '',
+  photo: '',
+  rating: 0,
+  branch: 0,
+  uniqueid: '',
+  description: '',
+  email: '',
+  phone:'',
+  location: ''
+});
+const { id } = useParams();
+const cookie = getCookie('user');
+const toast = useToast()
 
-  useEffect(()=>{
-    fetchRestaurantDetails(id!).then(res=> {
-        if(res.message=='error'){
-            console.log('no such restaurant')
-        }
-        else{
-            setRestaurant(res.restaurant);
-        }
-    } )
-  },[])
-  const incrementRating = () =>{
-    fetchInrementRating(restaurant.uniqueid, cookie).then(result=>{
-      if(result.message == 'unauthenticated'){
-        toast({
-          title: 'Нэвтрээгүй байна',
-          description: "Зөвхөн нэвтэрсэн хэргэлэгчид оноо өгөх эрхтэй",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
+useEffect(()=>{
+  fetchRestaurantDetails(id!).then(res=> {
+      if(res.message==='error'){
+          console.log('no such restaurant')
       }
-      if(result.message == 'success') setRestaurant({...restaurant, rating: restaurant.rating+1 });
-    })
-  }
-  useTitle(restaurant.name)
-  return (
-    <div>
-    <Navbar />
-    <Container maxW={'7xl'}>
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 18, md: 24 }}>
-        <Flex>
-          <Image
-            rounded={'md'}
-            alt={'product image'}
-            src={
-              restaurant.photo
-            }
-            fit={'cover'}
-            align={'center'}
-            w={'100%'}
-            h={{ base: '100%', sm: '400px', lg: '500px' }}
-          />
-        </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
-          <Box as={'header'}>
-            <Heading
-              lineHeight={1.1}
-              fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-              {restaurant.name}
+      else{
+          console.log(res.restaurant)
+          setRestaurant(res.restaurant);
+      }
+  } )
+},[])
+const incrementRating = () =>{
+  fetchInrementRating(restaurant.uniqueid, cookie).then(result=>{
+    if(result.message === 'unauthenticated'){
+      toast({
+        title: 'Нэвтрээгүй байна',
+        description: "Зөвхөн нэвтэрсэн хэргэлэгчид оноо өгөх эрхтэй",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    if(result.message === 'success') setRestaurant({...restaurant, rating: restaurant.rating+1 });
+  })
+}
+useTitle(restaurant.name)
+return (
+  <div>
+  <Navbar />
+  <Container maxW={'7xl'}>
+    <SimpleGrid
+      columns={{ base: 1, lg: 2 }}
+      spacing={{ base: 8, md: 10 }}
+      py={{ base: 18, md: 24 }}>
+      <Flex>
+        <Image
+          rounded={'md'}
+          alt={'product image'}
+          src={
+            restaurant.photo
+          }
+          fit={'cover'}
+          align={'center'}
+          w={'100%'}
+          h={{ base: '100%', sm: '400px', lg: '500px' }}
+        />
+      </Flex>
+      <Stack spacing={{ base: 6, md: 10 }}>
+        <Box as={'header'}>
+          <Heading
+            lineHeight={1.1}
+            fontWeight={600}
+            fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+            {restaurant.name}
 
-            </Heading>
+          </Heading>
+          <Text
+            color={useColorModeValue('green.900', 'green.1000')}
+            fontWeight={300}
+            fontSize={'2xl'}>
+            Нээлттэй
+          </Text>
+
+        </Box>
+        
+
+        <Stack
+          spacing={{ base: 4, sm: 6 }}
+          direction={'column'}
+          divider={
+            <StackDivider
+            borderColor={useColorModeValue('gray.200', 'gray.600')}
+            />
+          }>
+            <Button onClick={()=>incrementRating()} leftIcon={<GiHighFive/>} variant={'outline'} colorScheme='blue'>{restaurant.rating}</Button>
+          <VStack spacing={{ base: 4, sm: 6 }}>
+            <Text fontSize={'lg'}>
+              {restaurant.description}
+            </Text>
+          </VStack>
+          <Box>
             <Text
-              color={useColorModeValue('green.900', 'green.1000')}
-              fontWeight={300}
-              fontSize={'2xl'}>
-              Нээлттэй
+              fontSize={{ base: '16px', lg: '18px' }}
+              color={useColorModeValue('yellow.500', 'yellow.300')}
+              fontWeight={'500'}
+              textTransform={'uppercase'}
+              mb={'4'}>
+              Төрөл
             </Text>
 
-          </Box>
-          
+            <SimpleGrid row={{ base: 1, md: 2 }} spacing={10}>
+              <List spacing={2} >
+              <HStack spacing={4}>
 
-          <Stack
-            spacing={{ base: 4, sm: 6 }}
-            direction={'column'}
-            divider={
-              <StackDivider
-              borderColor={useColorModeValue('gray.200', 'gray.600')}
-              />
-            }>
-              <Button onClick={()=>incrementRating()} leftIcon={<GiHighFive/>} variant={'outline'} colorScheme='blue'>{restaurant.rating}</Button>
-            <VStack spacing={{ base: 4, sm: 6 }}>
-              {/* <Text
-                color={useColorModeValue('gray.500', 'gray.400')}
-                fontSize={'2xl'}
-                fontWeight={'300'}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
-              </Text> */}
-              <Text fontSize={'lg'}>
-                {restaurant.description}
-              </Text>
-            </VStack>
-            <Box>
-              <Text
-                fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
-                fontWeight={'500'}
-                textTransform={'uppercase'}
-                mb={'4'}>
-                Features
-              </Text>
-
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{' '}
-                  <ListItem>Tachymeter</ListItem>
-                </List>
-                <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
-                </List>
-              </SimpleGrid>
-            </Box>
-            <Box>
-              <Text
-                fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
-                fontWeight={'500'}
-                textTransform={'uppercase'}
-                mb={'4'}>
-                Product Details
-              </Text>
-
-              <List spacing={2}>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Between lugs:
-                  </Text>{' '}
-                  20 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Bracelet:
-                  </Text>{' '}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case:
-                  </Text>{' '}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case diameter:
-                  </Text>{' '}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Dial color:
-                  </Text>{' '}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Crystal:
-                  </Text>{' '}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Water resistance:
-                  </Text>{' '}
-                  5 bar (50 metres / 167 feet){' '}
-                </ListItem>
+              {restaurant.tags.split(',').map(tag=>{
+                return <Tag
+                size={'sm'}
+                key={tag}
+                borderRadius='full'
+                variant='solid'
+                colorScheme='green'
+                
+              >
+                <TagLabel>{tag}</TagLabel>
+              </Tag>
+              })}
+              </HStack>
               </List>
-            </Box>
-          </Stack>
+            </SimpleGrid>
+          </Box>
+          <Box>
+            <Text
+              fontSize={{ base: '16px', lg: '18px' }}
+              color={useColorModeValue('yellow.500', 'yellow.300')}
+              fontWeight={'500'}
+              textTransform={'uppercase'}
+              mb={'4'}>
+              Холбоо барих
+            </Text>
 
-          <Button
-            rounded={'none'}
-            w={'full'}
-            mt={8}
-            size={'lg'}
-            py={'7'}
-            bg={useColorModeValue('gray.900', 'gray.50')}
-            color={useColorModeValue('white', 'gray.900')}
-            textTransform={'uppercase'}
-            _hover={{
-                transform: 'translateY(2px)',
-                boxShadow: 'lg',
-            }}>
-            Add to cart
-          </Button>
+            <List spacing={2}>
+              <ListItem>
+                <Text as={'span'} fontWeight={'bold'}>
+                  Мэйл:
+                </Text>{' '}
+                {restaurant.email}
+              </ListItem>
+              <ListItem>
+                <Text as={'span'} fontWeight={'bold'}>
+                  Утас:
+                </Text>{' '}
+                {restaurant.phone}
+              </ListItem>
+            </List>
+          </Box>
+          {restaurant.location.length > 10 && 
+          <iframe src= {restaurant.location}
+          width="600" 
+          height="450" 
+          style={{border: 0}} 
+          allowFullScreen={true} 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"></iframe>
+          }
+          { restaurant.location.length <= 10 &&
 
-          <Stack direction="row" alignItems="center" justifyContent={'center'}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
-          </Stack>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10702.752266378366!2d106.88154599731443!3d47.8843662999613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d9693004b8c2d65%3A0x3f35d837777255e0!2z0KHQv9C-0YDRgiDQt9Cw0LDQuw!5e0!3m2!1smn!2smn!4v1658454223348!5m2!1smn!2smn" 
+            width="600" 
+            height="450" 
+            style={{border: 0}} 
+            allowFullScreen={true} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"></iframe>
+          }
         </Stack>
-      </SimpleGrid>
-    </Container>
-    </div>
-  );
+      </Stack>
+    </SimpleGrid>
+  </Container>
+  </div>
+);
 }

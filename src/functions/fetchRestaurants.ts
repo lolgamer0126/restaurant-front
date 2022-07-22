@@ -1,6 +1,6 @@
 const fetchRestaurants = async(n:number, option: string) =>{
     const val = JSON.stringify({'limit': n, 'option':option});
-    const result = await fetch('http://localhost:8000/restaurant', {
+    const result = await fetch('http://35.194.232.50:8000/restaurant', {
         method: 'POST',
         headers:{
             'Accept': 'application/json',

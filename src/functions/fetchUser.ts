@@ -1,7 +1,8 @@
 const fetchUser =async (cookie: string) =>{
-    const result = await fetch('http://localhost:8000/auth/getuserdetails', {
+    const result = await fetch('http://35.194.232.50:8000/auth/getuserdetails', {
         headers:{
             'cookie': cookie,
+            credentials: 'include',
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },

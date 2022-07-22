@@ -4,7 +4,7 @@ import getCookie from "./getCookie";
 const deleteRestaurant=async(uniqueid:string)=>{
     const cookie = getCookie('user');
     const data = JSON.stringify({id: uniqueid, cookie:cookie});
-    const result = await fetch('http://localhost:8000/restaurant/delete', {
+    const result = await fetch('http://35.194.232.50:8000/restaurant/delete', {
       method:'post',
       headers:{
         'Accept': 'application/json',

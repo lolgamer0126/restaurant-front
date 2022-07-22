@@ -24,20 +24,17 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, PhoneIcon, SearchIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, SearchIcon } from '@chakra-ui/icons';
 import fetchUser from '../functions/fetchUser';
 import getCookie from '../functions/getCookie';
 import { Link as ReachLink } from "react-router-dom";
 import { BiLogOut } from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { CookiesProvider } from 'react-cookie';
 import { useCookies } from 'react-cookie';
-import { Image } from '@chakra-ui/react'
 import searchRestaurant from '../functions/searchRestaurant';
 export default function Navbar() {
   interface restaurantInterface {
@@ -169,7 +166,7 @@ export default function Navbar() {
                   removeCookie('user');
                   window.location.reload();
                 }} > <MenuItem>  <BiLogOut /> Гарах</MenuItem> </Button>}
-                {!user.username && <Link href='http://localhost:8000/auth/google'> <Button  w={'full'} variant={'outline'} leftIcon={<FcGoogle />}>
+                {!user.username && <Link href='http://ochko.website:8000/auth/google'> <Button  w={'full'} variant={'outline'} leftIcon={<FcGoogle />}>
           <Center>
             <h2>Нэвтрэх</h2>
           </Center>

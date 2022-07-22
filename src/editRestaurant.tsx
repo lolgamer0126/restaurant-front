@@ -76,7 +76,7 @@ import fetchRestaurantDetails from './functions/fetchRestaurantDetails';
     const handleSubmit = async (event:any, ) =>{
         event.preventDefault();
         const rest = JSON.stringify(values);
-        const result = await fetch(`http://localhost:8000/restaurant/edit/${id}`, {
+        const result = await fetch(`http://35.194.232.50:8000/restaurant/edit/${id}`, {
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
