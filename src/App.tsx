@@ -8,6 +8,7 @@ import getCookie from './functions/getCookie';
 import { Select } from '@chakra-ui/react';
 
 const Home = () => {
+
   interface restaurantInterface {
     name: string,
     tags: string,
@@ -31,6 +32,7 @@ const Home = () => {
   useTitle('Нүүр')
   return (
     <div>
+
       <Navbar/>
       <Select placeholder='Эрэмблэлт сонгох' size='lg' onChange={(e)=>setOption(e.target.value)}>
         <option value='chronologically'>Сүүлд нэмэгдсэнээр</option>
