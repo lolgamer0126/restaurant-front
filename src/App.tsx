@@ -5,7 +5,9 @@ import { useEffect, useState, useRef } from 'react';
 import useTitle from './functions/changeTitle';
 import fetchUser from './functions/fetchUser'
 import getCookie from './functions/getCookie';
-import { Select } from '@chakra-ui/react';
+import { Center, Grid, Select, SimpleGrid } from '@chakra-ui/react';
+import RestaurantCard from './components/RestaurantPre';
+import "./index.css";
 
 const Home = () => {
 
@@ -44,6 +46,15 @@ const Home = () => {
         return <RestaurantList key={i} name={r.name} tags = {r.tags.split(',')} img = {r.photo} rating = {r.rating} branch = {r.branch} uniqueid={r.uniqueid} admin={admin}/>
       })
       }
+      <div className={'center'} >
+      <SimpleGrid p={10} columns={[1, null, 3]} gap={6} >
+        <RestaurantCard/>
+        <RestaurantCard/>
+
+        <RestaurantCard/>
+
+      </SimpleGrid>
+      </div>
   </div>
   );
 };
